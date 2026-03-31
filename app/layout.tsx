@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Trailware - Coming Soon",
-  description: "A new way to explore. Stay informed. Stay safe. Be the first to experience the future of trail adventures.",
+  title: "Trailware — Next-Gen Outdoor Adventure Platform for Hikers & Trail Runners",
+  description: "Trailware is a next-generation outdoor adventure platform for hikers, trail runners, and backcountry explorers. Powered by patent-pending behavioral intelligence. Join the early access list.",
   openGraph: {
-    title: "Trailware - Something Big is Coming",
-    description: "A new way to explore. Stay informed. Stay safe. Be the first to experience the future of trail adventures.",
+    title: "Trailware — Next-Gen Outdoor Adventure Platform",
+    description: "Powered by patent-pending behavioral intelligence, Trailware learns how YOU explore — your pace, terrain preferences, risk tolerance — to keep you safe and guide you smarter.",
     type: "website",
     url: "https://www.trailware.com/",
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
@@ -43,6 +43,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
       </head>
       <body>{children}</body>
     </html>

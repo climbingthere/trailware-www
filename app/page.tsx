@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 
 type FormState = "idle" | "loading" | "success" | "duplicate" | "error";
@@ -10,10 +10,18 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [formState, setFormState] = useState<FormState>("idle");
   const [errorText, setErrorText] = useState("");
+  const formRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!name.trim() || !email.trim()) return;
+
+    // Grab Turnstile token
+    const form = e.currentTarget;
+    const turnstileInput = form.querySelector<HTMLInputElement>(
+      'input[name="cf-turnstile-response"]'
+    );
+    const turnstileToken = turnstileInput?.value || "";
 
     setFormState("loading");
     setErrorText("");
@@ -28,6 +36,7 @@ export default function Home() {
             name: name.trim(),
             email: email.trim(),
             source: "website",
+            ...(turnstileToken ? { "cf-turnstile-response": turnstileToken } : {}),
           }),
         }
       );
@@ -56,6 +65,10 @@ export default function Home() {
     }
   };
 
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const isSuccess = formState === "success" || formState === "duplicate";
 
   return (
@@ -70,99 +83,154 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="container">
-        <Image
-          src="/trailware_logo.png"
-          alt="Trailware"
-          width={300}
-          height={93}
-          className="logo"
-          priority
-        />
+      {/* ── Hero Section ── */}
+      <section className="hero-section">
+        <div className="container">
+          {/* Fix 1: logo + headline centered together */}
+          <div className="hero-header">
+            <Image
+              src="/trailware_logo.png"
+              alt="Trailware"
+              width={300}
+              height={93}
+              className="logo"
+              priority
+            />
+            <h1 className="headline">
+              Something <span className="highlight">big</span> is coming
+              <br />
+              for the trail
+            </h1>
+          </div>
 
-        <h1 className="headline">
-          Something <span className="highlight">big</span> is coming
-          <br />
-          for the trail
-        </h1>
+          <p className="subtitle">
+            A new way to explore. Stay informed. Stay safe.
+            <br />
+            Be the first to experience it.
+          </p>
 
-        <p className="subtitle">
-          A new way to explore. Stay informed. Stay safe.
-          <br />
-          Be the first to experience it.
-        </p>
+          <div className="form-container" ref={formRef}>
+            {!isSuccess ? (
+              <form id="early-access-form" onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Your name"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={formState === "loading"}
+                />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={formState === "loading"}
+                />
 
-        <div className="form-container">
-          {!isSuccess ? (
-            <form id="early-access-form" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Your name"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={formState === "loading"}
-              />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="your@email.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={formState === "loading"}
-              />
+                {/* Fix 2: Cloudflare Turnstile widget before submit */}
+                <div
+                  className="cf-turnstile turnstile-widget"
+                  data-sitekey="0x4AAAAAAA"
+                  data-theme="dark"
+                />
 
-              <button
-                type="submit"
-                id="submit-btn"
-                disabled={formState === "loading"}
-              >
-                {formState === "loading" ? "SUBMITTING..." : "GET EARLY ACCESS"}
-              </button>
-
-              {formState === "error" && (
-                <p className="error-message" style={{ display: "block" }}>
-                  {errorText}
-                </p>
-              )}
-            </form>
-          ) : (
-            <div className="success-container" style={{ display: "block" }}>
-              <div className="checkmark">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
+                <button
+                  type="submit"
+                  id="submit-btn"
+                  disabled={formState === "loading"}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h3>
-                {formState === "duplicate"
-                  ? "You're already on the list!"
-                  : "Check your email for updates! 📬"}
-              </h3>
-              <p>
-                {formState === "duplicate"
-                  ? "We already have your info — we'll be in touch soon."
-                  : "We'll reach out when it's time to hit the trail."}
-              </p>
-            </div>
-          )}
-        </div>
+                  {formState === "loading" ? "SUBMITTING..." : "GET EARLY ACCESS"}
+                </button>
 
-        <p className="coming-soon">Coming 2026</p>
-      </div>
+                {formState === "error" && (
+                  <p className="error-message" style={{ display: "block" }}>
+                    {errorText}
+                  </p>
+                )}
+              </form>
+            ) : (
+              <div className="success-container" style={{ display: "block" }}>
+                <div className="checkmark">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h3>
+                  {formState === "duplicate"
+                    ? "You're already on the list!"
+                    : "Check your email for updates! 📬"}
+                </h3>
+                <p>
+                  {formState === "duplicate"
+                    ? "We already have your info — we'll be in touch soon."
+                    : "We'll reach out when it's time to hit the trail."}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <p className="coming-soon">Coming 2026</p>
+        </div>
+      </section>
+
+      {/* Fix 3: SEO "What is Trailware?" section */}
+      <section className="about-section">
+        <div className="about-container">
+          <h2 className="about-heading">What is Trailware?</h2>
+          <p className="about-description">
+            Trailware is a next-generation outdoor adventure platform for hikers,
+            trail runners, and backcountry explorers. Powered by patent-pending
+            behavioral intelligence, Trailware learns how <em>YOU</em> explore —
+            your pace, your terrain preferences, your risk tolerance — and uses
+            that to keep you safe and guide you smarter.
+          </p>
+
+          <ul className="feature-list">
+            <li className="feature-item">
+              <span className="feature-icon">🧠</span>
+              <div>
+                <strong>Behavioral Intelligence</strong> — Patent-pending AI that
+                learns your unique trail patterns and adapts in real time
+              </div>
+            </li>
+            <li className="feature-item">
+              <span className="feature-icon">🛡️</span>
+              <div>
+                <strong>Smart Safety</strong> — Automated 4-level safety
+                escalation that alerts your emergency contacts if something goes
+                wrong
+              </div>
+            </li>
+            <li className="feature-item">
+              <span className="feature-icon">🗺️</span>
+              <div>
+                <strong>Trail Familiarity</strong> — Know exactly how familiar a
+                trail is before you go, based on your own history
+              </div>
+            </li>
+          </ul>
+
+          <button className="cta-secondary" onClick={scrollToForm}>
+            Join the Early Access List →
+          </button>
+        </div>
+      </section>
 
       <style>{`
         .glow {
@@ -226,28 +294,47 @@ export default function Home() {
           100% { transform: translateY(-100vh) scale(1); opacity: 0; }
         }
 
+        /* ── Hero ── */
+        .hero-section {
+          min-height: 100vh;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 60px 20px;
+          position: relative;
+          z-index: 1;
+        }
+
         .container {
           text-align: center;
           max-width: 480px;
           width: 100%;
-          position: relative;
-          z-index: 1;
+        }
+
+        /* Fix 1: logo + headline as a centered flex column */
+        .hero-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 20px;
         }
 
         .logo {
           height: 50px !important;
           width: auto !important;
-          margin-bottom: 48px;
+          margin-bottom: 32px;
           filter: drop-shadow(0 0 30px rgba(181, 103, 58, 0.3));
+          display: block;
         }
 
         .headline {
           font-size: 2.75rem;
           font-weight: 600;
-          margin-bottom: 20px;
           line-height: 1.2;
           letter-spacing: -0.02em;
           color: #ffffff;
+          text-align: center;
         }
 
         .headline .highlight {
@@ -270,6 +357,12 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           gap: 14px;
+        }
+
+        /* Turnstile widget centering */
+        .turnstile-widget {
+          display: flex;
+          justify-content: center;
         }
 
         input {
@@ -379,6 +472,87 @@ export default function Home() {
           text-transform: uppercase;
         }
 
+        /* ── About / SEO Section ── */
+        .about-section {
+          width: 100%;
+          background: rgba(255, 255, 255, 0.02);
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          position: relative;
+          z-index: 1;
+          padding: 80px 20px 100px;
+        }
+
+        .about-container {
+          max-width: 620px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .about-heading {
+          font-size: 2rem;
+          font-weight: 600;
+          color: #ffffff;
+          margin-bottom: 24px;
+          letter-spacing: -0.02em;
+        }
+
+        .about-description {
+          font-size: 1.05rem;
+          font-weight: 300;
+          color: #999999;
+          line-height: 1.8;
+          margin-bottom: 48px;
+        }
+
+        .about-description em {
+          color: #B5673A;
+          font-style: normal;
+          font-weight: 500;
+        }
+
+        .feature-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          margin-bottom: 52px;
+          text-align: left;
+        }
+
+        .feature-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 14px;
+          padding: 20px 24px;
+          font-size: 0.97rem;
+          color: #bbbbbb;
+          line-height: 1.6;
+        }
+
+        .feature-item strong {
+          color: #ffffff;
+        }
+
+        .feature-icon {
+          font-size: 1.4rem;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+
+        .cta-secondary {
+          display: inline-block;
+          width: auto;
+          padding: 14px 32px;
+          letter-spacing: 0.04em;
+          text-transform: none;
+          font-size: 1rem;
+          font-weight: 500;
+        }
+
+        /* ── Responsive ── */
         @media (max-width: 480px) {
           .headline {
             font-size: 2rem;
@@ -389,10 +563,16 @@ export default function Home() {
           }
           .logo {
             height: 40px !important;
-            margin-bottom: 36px;
+            margin-bottom: 28px;
           }
           input, button {
             padding: 14px 18px;
+          }
+          .about-heading {
+            font-size: 1.6rem;
+          }
+          .about-section {
+            padding: 60px 20px 80px;
           }
         }
       `}</style>

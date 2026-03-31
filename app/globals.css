@@ -17,9 +17,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   color: #ffffff;
-  padding: 20px;
+  padding: 0;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
