@@ -189,45 +189,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Fix 3: SEO "What is Trailware?" section */}
+      {/* ── What is Trailware? ── */}
       <section className="about-section">
         <div className="about-container">
           <h2 className="about-heading">What is Trailware?</h2>
-          <p className="about-description">
-            Trailware is a next-generation outdoor adventure platform for hikers,
-            trail runners, and backcountry explorers. Powered by patent-pending
-            behavioral intelligence, Trailware learns how <em>YOU</em> explore —
-            your pace, your terrain preferences, your risk tolerance — and uses
-            that to keep you safe and guide you smarter.
+          <p className="about-intro">
+            Trailware is patent-pending behavioral intelligence for outdoor
+            adventures. It learns how <em>you</em> move on the trail — your
+            pace, your terrain preferences, your risk tolerance — and uses that
+            knowledge to keep you safer and guide you smarter.
           </p>
 
-          <ul className="feature-list">
-            <li className="feature-item">
-              <span className="feature-icon">🧠</span>
-              <div>
-                <strong>Behavioral Intelligence</strong> — Patent-pending AI that
-                learns your unique trail patterns and adapts in real time
+          <div className="feature-cards">
+            <div className="feature-card">
+              <div className="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width={28} height={28}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                </svg>
               </div>
-            </li>
-            <li className="feature-item">
-              <span className="feature-icon">🛡️</span>
-              <div>
-                <strong>Smart Safety</strong> — Automated 4-level safety
-                escalation that alerts your emergency contacts if something goes
-                wrong
+              <h3 className="card-title">Behavioral Intelligence</h3>
+              <p className="card-text">
+                Patent-pending AI that learns your unique trail patterns and
+                adapts in real time.
+              </p>
+            </div>
+
+            <div className="feature-card">
+              <div className="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width={28} height={28}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                </svg>
               </div>
-            </li>
-            <li className="feature-item">
-              <span className="feature-icon">🗺️</span>
-              <div>
-                <strong>Trail Familiarity</strong> — Know exactly how familiar a
-                trail is before you go, based on your own history
+              <h3 className="card-title">Smart Safety</h3>
+              <p className="card-text">
+                Automated 4-level safety escalation that alerts your emergency
+                contacts when something goes wrong.
+              </p>
+            </div>
+
+            <div className="feature-card">
+              <div className="card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width={28} height={28}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+                </svg>
               </div>
-            </li>
-          </ul>
+              <h3 className="card-title">Trail Familiarity</h3>
+              <p className="card-text">
+                Know exactly how familiar a trail is before you go, based on your
+                own history.
+              </p>
+            </div>
+          </div>
 
           <button className="cta-secondary" onClick={scrollToForm}>
-            Join the Early Access List →
+            Join the Early Access List
           </button>
         </div>
       </section>
@@ -472,80 +487,99 @@ export default function Home() {
           text-transform: uppercase;
         }
 
-        /* ── About / SEO Section ── */
+        /* ── What is Trailware? ── */
         .about-section {
           width: 100%;
-          background: rgba(255, 255, 255, 0.02);
+          background: rgba(255, 255, 255, 0.015);
           border-top: 1px solid rgba(255, 255, 255, 0.06);
           position: relative;
           z-index: 1;
-          padding: 80px 20px 100px;
+          padding: 96px 20px 112px;
         }
 
         .about-container {
-          max-width: 620px;
+          max-width: 860px;
           margin: 0 auto;
           text-align: center;
         }
 
         .about-heading {
-          font-size: 2rem;
-          font-weight: 600;
+          font-size: 2.5rem;
+          font-weight: 700;
           color: #ffffff;
-          margin-bottom: 24px;
-          letter-spacing: -0.02em;
+          margin-bottom: 20px;
+          letter-spacing: -0.03em;
         }
 
-        .about-description {
-          font-size: 1.05rem;
+        .about-intro {
+          font-size: 1.1rem;
           font-weight: 300;
           color: #999999;
           line-height: 1.8;
-          margin-bottom: 48px;
+          margin-bottom: 56px;
+          max-width: 620px;
+          margin-left: auto;
+          margin-right: auto;
         }
 
-        .about-description em {
+        .about-intro em {
           color: #B5673A;
           font-style: normal;
           font-weight: 500;
         }
 
-        .feature-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
+        .feature-cards {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
           gap: 20px;
-          margin-bottom: 52px;
-          text-align: left;
+          margin-bottom: 56px;
         }
 
-        .feature-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 16px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+        .feature-card {
+          background: rgba(255, 255, 255, 0.025);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 16px;
+          padding: 32px 24px 28px;
+          text-align: center;
+          transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .feature-card:hover {
+          border-color: rgba(181, 103, 58, 0.3);
+          background: rgba(255, 255, 255, 0.035);
+        }
+
+        .card-icon {
+          width: 52px;
+          height: 52px;
+          background: rgba(181, 103, 58, 0.1);
           border-radius: 14px;
-          padding: 20px 24px;
-          font-size: 0.97rem;
-          color: #bbbbbb;
-          line-height: 1.6;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 20px;
+          color: #B5673A;
         }
 
-        .feature-item strong {
+        .card-title {
+          font-size: 1.1rem;
+          font-weight: 600;
           color: #ffffff;
+          margin-bottom: 10px;
+          letter-spacing: -0.01em;
         }
 
-        .feature-icon {
-          font-size: 1.4rem;
-          flex-shrink: 0;
-          margin-top: 1px;
+        .card-text {
+          font-size: 0.92rem;
+          font-weight: 300;
+          color: #999999;
+          line-height: 1.65;
         }
 
         .cta-secondary {
           display: inline-block;
           width: auto;
-          padding: 14px 32px;
+          padding: 16px 36px;
           letter-spacing: 0.04em;
           text-transform: none;
           font-size: 1rem;
@@ -569,10 +603,17 @@ export default function Home() {
             padding: 14px 18px;
           }
           .about-heading {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
           }
           .about-section {
-            padding: 60px 20px 80px;
+            padding: 64px 20px 80px;
+          }
+          .feature-cards {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+          .feature-card {
+            padding: 24px 20px 22px;
           }
         }
       `}</style>
