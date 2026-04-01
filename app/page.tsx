@@ -136,7 +136,7 @@ export default function Home() {
                 {/* Fix 2: Cloudflare Turnstile widget before submit */}
                 <div
                   className="cf-turnstile turnstile-widget"
-                  data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAAA"}
+                  data-sitekey="0x4AAAAAACyqbbbzGQzmfhPl"
                   data-theme="dark"
                 />
 
